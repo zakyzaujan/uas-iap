@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../services/mealApi";
-import { Link } from "react-router-dom";
+import MealCard from "../components/MealCard"; // ← import MealCard
 import useTitle from "@/hooks/useTitle";
 
 const Home = () => {
@@ -19,18 +19,15 @@ const Home = () => {
       </h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {cats.map((c) => (
-          <Link
+          <MealCard
             key={c.idCategory}
+            meal={{
+              idMeal: c.idCategory,
+              strMeal: c.strCategory,
+              strMealThumb: c.strCategoryThumb,
+            }}
             to={`/meals/category/${c.strCategory}`}
-            className="border rounded-lg overflow-hidden hover:shadow-lg"
-          >
-            <img
-              src={c.strCategoryThumb}
-              alt={c.strCategory}
-              className="w-full h-28 object-cover"
-            />
-            <div className="p-2 text-center font-semibold">{c.strCategory}</div>
-          </Link>
+          />
         ))}
       </div>
     </div>
