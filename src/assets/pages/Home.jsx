@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../services/mealApi";
-import MealCard from "../components/MealCard"; // ← import MealCard
+import MealCard from "../components/MealCard";
 import useTitle from "@/hooks/useTitle";
 
 const Home = () => {
