@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "https://www.themealdb.com/api/json/v1/1";
+const API_BASE = "/api/json/v1/1";
 
 export async function fetchCategories() {
   const { data } = await axios.get(`${API_BASE}/categories.php`);
