@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchMealDetail } from "../services/mealApi";
 import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
 
-export default function MealDetailModal({ mealId, children }) {
+function MealDetailModal({ mealId, children }) {
   const [meal, setMeal] = useState(null);
 
   useEffect(() => {
@@ -65,3 +65,5 @@ export default function MealDetailModal({ mealId, children }) {
     </Dialog>
   );
 }
+
+export default MealDetailModal;

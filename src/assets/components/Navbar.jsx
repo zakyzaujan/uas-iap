@@ -1,22 +1,11 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
-  const { pathname } = useLocation();
-
-  let title;
-  if (pathname === "/") {
-    title = "Profil Saya";
-  } else if (pathname.startsWith("/meals")) {
-    title = "Resep Makanan";
-  } else {
-    title = "Halaman Error";
-  }
-
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-2.5 sticky top-0">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <NavLink className="text-2xl font-semibold text-gray-800 hover:text-gray-600">
-          {title}
+          Resep API
         </NavLink>
 
         <nav className="flex items-center space-x-6">
