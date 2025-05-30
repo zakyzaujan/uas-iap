@@ -11,7 +11,7 @@ const NotFound = () => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <img
-        src="404.png"
+        src="/404.png"
         alt="404 Not Found"
         className="sm:w-1/5 w-7/8 -mt-40"
       />
