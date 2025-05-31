@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import { fetchMealDetail } from "../services/mealApi";
-import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 
 function MealDetailModal({ mealId, children }) {
   const [meal, setMeal] = useState(null);
 
   useEffect(() => {
-    if (mealId) fetchMealDetail(mealId).then(setMeal);
+    if (mealId) {
+      fetchMealDetail(mealId).then(setMeal);
+    }
   }, [mealId]);
 
   const ingredients = meal
@@ -17,47 +25,71 @@ function MealDetailModal({ mealId, children }) {
       }).filter(Boolean)
     : [];
 
+  const instructions = meal?.strInstructions
+    ? meal.strInstructions.split(/(?:\r?\n){1,}/).filter((line) => line.trim())
+    : [];
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent
-        className="
-        max-w-lg
-        data-[state=open]:animate-in data-[state=closed]:animate-out
-        data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0
-        data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95
-      "
-      >
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold">
-            {"Detail Resep" + (meal ? ` "${meal.strMeal}"` : "")}
-          </h2>
-        </div>
-        <div className="overflow-y-auto p-4 max-h-[calc(80vh-56px)]">
+      <DialogContent className="max-w-2xl max-h-[90vh]">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center p-2">
+            {meal ? meal.strMeal : "Memuat detail resep..."}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="overflow-y-auto p-4 max-h-[70vh] space-y-6">
           {!meal ? (
-            <p>Memuat resep…</p>
+            <p className="text-center">Memuat resep…</p>
           ) : (
             <>
-              <img
-                src={meal.strMealThumb}
-                alt={meal.strMeal}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="mt-4 font-semibold">Bahan-bahan:</h3>
-              <ul className="list-disc list-inside mb-4">
-                {ingredients.map((ing, idx) => (
-                  <li key={idx}>{ing}</li>
-                ))}
-              </ul>
-              <h3 className="mt-4 font-semibold">Instruksi:</h3>
-              <p className="text-sm leading-relaxed">
-                {meal.strInstructions
-                  .match(/[^.!?]+[.!?]+/g)
-                  ?.map((sentence, idx) => (
-                    <p key={idx}>{sentence.trim()}</p>
+              {/* Gambar dan Overlay Nama */}
+              <div className="relative">
+                <img
+                  src={meal.strMealThumb}
+                  alt={meal.strMeal}
+                  className="w-full h-64 object-cover rounded-lg"
+                />
+                <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  {meal.strMeal}
+                </div>
+              </div>
+
+              {/* Bahan-bahan */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Bahan-bahan</h3>
+                <ul className="space-y-2">
+                  {ingredients.map((ing, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-start text-sm leading-relaxed"
+                    >
+                      <span className="w-2 h-2 bg-black rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      <span>{ing}</span>
+                    </li>
                   ))}
-              </p>
+                </ul>
+              </div>
+
+              {/* Cara Memasak */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Cara Memasak</h3>
+                <ol className="space-y-3 list-none">
+                  {instructions.map((step, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-start text-sm leading-relaxed"
+                    >
+                      <span className="bg-black text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">
+                        {idx + 1}
+                      </span>
+                      <span>{step.trim()}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </>
           )}
         </div>
