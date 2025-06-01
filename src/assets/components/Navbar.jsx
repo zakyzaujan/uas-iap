@@ -1,33 +1,35 @@
 import { NavLink } from "react-router-dom";
+import { User, Utensils } from "lucide-react";
 
 function Navbar() {
   return (
-    <header className="bg-white border-b border-gray-200 px-4 py-2.5 sticky top-0">
+    <header className="bg-white/80 border-b border-gray-200 backdrop-blur-sm px-4 py-2.5 sticky top-0 z-10 pb-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <NavLink className="text-2xl font-semibold text-gray-800 hover:text-gray-600">
-          Resep API
-        </NavLink>
+        <h1 className="text-2xl font-semibold text-primary">Resep API</h1>
 
-        <nav className="flex items-center space-x-6">
+        <nav className="flex items-center space-x-5">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-gray-900"
-                : "text-gray-700 hover:text-gray-900"
+                ? "text-primary font-semibold flex items-center gap-1"
+                : "text-muted-foreground hover:text-primary flex items-center gap-1"
             }
           >
+            <User size={18} />
             Profil
           </NavLink>
+
           <NavLink
             to="/meals"
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-gray-900"
-                : "text-gray-700 hover:text-gray-900"
+                ? "text-primary font-semibold flex items-center gap-1"
+                : "text-muted-foreground hover:text-primary flex items-center gap-1"
             }
           >
+            <Utensils size={18} />
             Resep
           </NavLink>
         </nav>
@@ -36,4 +38,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export { Navbar };

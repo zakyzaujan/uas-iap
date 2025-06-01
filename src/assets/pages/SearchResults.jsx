@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { searchMeals } from "../services/mealApi";
-import MealDetailModal from "../components/MealDetailModal";
-import MealCard from "../components/MealCard";
-import SkeletonCard from "../components/SkeletonCard";
+import { MealCard } from "../components/MealCard";
+import { MealDetailModal } from "../components/MealDetailModal";
+import { SkeletonCard } from "../components/SkeletonCard";
 
 const SearchResults = () => {
   const { query } = useParams();

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchCategories } from "../services/mealApi";
-import MealCard from "../components/MealCard";
+import { MealCard } from "../components/MealCard";
+import { SkeletonCard } from "../components/SkeletonCard";
 import useTitle from "@/hooks/useTitle";
-import SkeletonCard from "../components/SkeletonCard";
+import { ViewToggle } from "../components/ViewToggle";
 
 const Home = () => {
   const [cats, setCats] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [viewMode, setViewMode] = useState("grid");
 
   useTitle("Resep Makanan");
 
@@ -19,24 +23,36 @@ const Home = () => {
 
   return (
     <div className="px-4">
-      <h1 className="text-2xl mb-8 text-center font-semibold">
+      <h1 className="text-2xl mb-4 text-center font-semibold">
         Kategori Resep
       </h1>
+
+      <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
 
       {loading ? (
         <SkeletonCard />
       ) : (
-        <div className="flex flex-wrap justify-center gap-4">
+        <div
+          className={
+            viewMode === "grid"
+              ? "flex flex-wrap justify-center gap-4"
+              : "flex flex-col gap-4"
+          }
+        >
           {cats.map((c) => (
-            <MealCard
-              key={c.idCategory}
-              meal={{
-                idMeal: c.idCategory,
-                strMeal: c.strCategory,
-                strMealThumb: c.strCategoryThumb,
-              }}
-              to={`/meals/category/${c.strCategory}`}
-            />
+            <Link key={c.idCategory} to={`/meals/category/${c.strCategory}`}>
+              <div className={viewMode === "list" ? "w-full" : ""}>
+                <MealCard
+                  meal={{
+                    idMeal: c.idCategory,
+                    strMeal: c.strCategory,
+                    strMealThumb: c.strCategoryThumb,
+                  }}
+                  listView={viewMode === "list"}
+                  className={viewMode === "list" ? "!w-full" : ""}
+                />
+              </div>
+            </Link>
           ))}
         </div>
       )}

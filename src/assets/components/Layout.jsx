@@ -1,13 +1,13 @@
 import { useLocation } from "react-router-dom";
-import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+import { Navbar } from "./Navbar";
+import { SearchBar } from "./SearchBar";
 
 function Layout({ children }) {
   const { pathname } = useLocation();
   const showSearch = pathname.startsWith("/meals");
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#FAF9F6]">
       <Navbar />
       <div className="sticky top-16 z-30 flex justify-center pb-4">
         {showSearch && (
@@ -25,4 +25,4 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export { Layout };

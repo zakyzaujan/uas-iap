@@ -1,14 +1,23 @@
-function SkeletonCard({ count = 12, height = "h-62", className = "" }) {
+import { Skeleton } from "./ui/skeleton";
+
+function SkeletonCard({ count = 12, className = "" }) {
   return (
     <div className={`flex flex-wrap justify-center gap-4 ${className}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <div
+        <Skeleton
           key={i}
-          className={`w-80 ${height} bg-gray-200 rounded-xl animate-pulse`}
+          className={`
+            h-62 rounded-xl
+            w-[calc(100vw-2rem)]
+            [@media(min-width:320px)]:w-[7.5rem]
+            [@media(min-width:375px)]:w-[9rem]
+            [@media(min-width:425px)]:w-[10.5rem]
+            [@media(min-width:426px)]:w-80
+          `}
         />
       ))}
     </div>
   );
 }
 
-export default SkeletonCard;
+export { SkeletonCard };

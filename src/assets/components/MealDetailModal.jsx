@@ -7,6 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
+import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
 
 function MealDetailModal({ mealId, children }) {
   const [meal, setMeal] = useState(null);
@@ -17,6 +19,10 @@ function MealDetailModal({ mealId, children }) {
     }
   }, [mealId]);
 
+  const tags = meal?.strTags
+    ? meal.strTags.split(",").map((tag) => tag.trim())
+    : [];
+
   const ingredients = meal
     ? Array.from({ length: 20 }, (_, i) => {
         const name = meal[`strIngredient${i + 1}`];
@@ -26,8 +32,16 @@ function MealDetailModal({ mealId, children }) {
     : [];
 
   const instructions = meal?.strInstructions
-    ? meal.strInstructions.split(/(?:\r?\n){1,}/).filter((line) => line.trim())
+    ? meal.strInstructions.split(/\r\n\r\n/).filter((line) => line.trim())
     : [];
+
+  const youtube = meal?.strYoutube
+    ? meal.strYoutube.replace("watch?v=", "embed/")
+    : null;
+
+  const source = meal?.strSource
+    ? meal.strSource.replace("https://", "https://www.")
+    : null;
 
   return (
     <Dialog>
@@ -38,6 +52,12 @@ function MealDetailModal({ mealId, children }) {
           <DialogTitle className="text-2xl font-bold text-center p-2">
             {meal ? meal.strMeal : "Memuat detail resep..."}
           </DialogTitle>
+          {meal?.strArea && meal?.strCategory && (
+            <p className="text-center text-muted-foreground -mt-3">
+              {meal.strArea} • {meal.strCategory}
+            </p>
+          )}
+          <Separator />
         </DialogHeader>
 
         <div className="overflow-y-auto p-4 max-h-[70vh] space-y-6">
@@ -45,19 +65,44 @@ function MealDetailModal({ mealId, children }) {
             <p className="text-center">Memuat resep…</p>
           ) : (
             <>
-              {/* Gambar dan Overlay Nama */}
               <div className="relative">
                 <img
-                  src={meal.strMealThumb}
+                  src={meal.strMealThumb || "/placeholder.svg"}
                   alt={meal.strMeal}
                   className="w-full h-64 object-cover rounded-lg"
                 />
-                <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
-                  {meal.strMeal}
-                </div>
+                {tags.length > 0 && (
+                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        className="bg-black/70 text-white text-sm"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Bahan-bahan */}
+              <div>
+                <p className="text-sm mb-3 -mt-5">
+                  <b className="font-semibold">Link Resep:</b>{" "}
+                  {source ? (
+                    <a
+                      href={source}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary hover:underline text-sm"
+                    >
+                      {source}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">Tidak tersedia</span>
+                  )}{" "}
+                </p>
+              </div>
+
               <div>
                 <h3 className="text-lg font-semibold mb-3">Bahan-bahan</h3>
                 <ul className="space-y-2">
@@ -73,7 +118,6 @@ function MealDetailModal({ mealId, children }) {
                 </ul>
               </div>
 
-              {/* Cara Memasak */}
               <div>
                 <h3 className="text-lg font-semibold mb-3">Cara Memasak</h3>
                 <ol className="space-y-3 list-none">
@@ -90,6 +134,29 @@ function MealDetailModal({ mealId, children }) {
                   ))}
                 </ol>
               </div>
+
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Instruksi Video</h3>
+                {youtube ? (
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={youtube}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src="https://www.youtube.com/embed/0kY1b2a8Q3E"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                )}
+              </div>
             </>
           )}
         </div>
@@ -98,4 +165,4 @@ function MealDetailModal({ mealId, children }) {
   );
 }
 
-export default MealDetailModal;
+export { MealDetailModal };

@@ -1,15 +1,18 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchMealsByCategory } from "../services/mealApi";
-import MealDetailModal from "../components/MealDetailModal";
-import MealCard from "../components/MealCard";
-import SkeletonCard from "../components/SkeletonCard";
+import { MealCard } from "../components/MealCard";
+import { MealDetailModal } from "../components/MealDetailModal";
+import { SkeletonCard } from "../components/SkeletonCard";
+import { ViewToggle } from "../components/ViewToggle";
 
 const Category = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
     setLoading(true);
@@ -32,16 +35,34 @@ const Category = () => {
 
   return (
     <div className="px-4">
-      <h1 className="text-2xl mb-8 text-center font-semibold">Resep {name}</h1>
+      <h1 className="text-2xl mb-4 text-center font-semibold">Resep {name}</h1>
+
+      <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
 
       {loading ? (
         <SkeletonCard />
       ) : (
-        <div className="flex flex-wrap justify-center gap-4">
+        <div
+          className={
+            viewMode === "grid"
+              ? "flex flex-wrap justify-center gap-4"
+              : "flex flex-col gap-4"
+          }
+        >
           {meals.map((m) => (
             <MealDetailModal key={m.idMeal} mealId={m.idMeal}>
-              <div className="cursor-pointer">
-                <MealCard meal={m} />
+              <div
+                className={
+                  viewMode === "list"
+                    ? "cursor-pointer w-full"
+                    : "cursor-pointer"
+                }
+              >
+                <MealCard
+                  meal={m}
+                  listView={viewMode === "list"}
+                  className={viewMode === "list" ? "!w-full" : ""}
+                />
               </div>
             </MealDetailModal>
           ))}
