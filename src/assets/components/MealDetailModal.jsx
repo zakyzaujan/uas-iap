@@ -9,6 +9,7 @@ import {
 } from "./ui/dialog";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
+import { SquareArrowOutUpRight } from "lucide-react";
 
 function MealDetailModal({ mealId, children }) {
   const [meal, setMeal] = useState(null);
@@ -32,7 +33,10 @@ function MealDetailModal({ mealId, children }) {
     : [];
 
   const instructions = meal?.strInstructions
-    ? meal.strInstructions.split(/\r\n\r\n/).filter((line) => line.trim())
+    ? (meal.strInstructions.includes("\r\n\r\n")
+        ? meal.strInstructions.split("\r\n\r\n")
+        : meal.strInstructions.split("\r\n")
+      ).filter((line) => line.trim() !== "")
     : [];
 
   const youtube = meal?.strYoutube
@@ -93,9 +97,10 @@ function MealDetailModal({ mealId, children }) {
                       href={source}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary hover:underline text-sm"
+                      className="text-muted-foreground hover:text-primary hover:underline text-sm inline-flex"
                     >
                       {source}
+                      <SquareArrowOutUpRight size={12} />
                     </a>
                   ) : (
                     <span className="text-gray-500">Tidak tersedia</span>

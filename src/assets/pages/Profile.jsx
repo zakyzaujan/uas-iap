@@ -8,7 +8,17 @@ import {
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Separator } from "../components/ui/separator";
-import { Mail, Phone, MapPin, Github, Linkedin, Instagram } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Github,
+  Linkedin,
+  Instagram,
+  SquareArrowUpLeftIcon,
+  SquareArrowUpRight,
+  SquareArrowOutUpRight,
+} from "lucide-react";
 import useTitle from "@/hooks/useTitle";
 
 const Profile = () => {
@@ -48,6 +58,29 @@ const Profile = () => {
     {
       title: "Tools & Platforms",
       items: ["Git", "Figma", "VS Code"],
+    },
+  ];
+
+  const apiSources = [
+    {
+      title: "List Kategori",
+      url: "https://www.themealdb.com/categories.php",
+      description: "Mengambil semua kategori masakan.",
+    },
+    {
+      title: "Daftar Makanan per Kategori",
+      url: "https://www.themealdb.com/filter.php?c={category}",
+      description: "Mengambil daftar makanan berdasarkan kategori.",
+    },
+    {
+      title: "Pencarian Makanan",
+      url: "https://www.themealdb.com/search.php?s={query}",
+      description: "Mencari makanan berdasarkan nama.",
+    },
+    {
+      title: "Detail Makanan",
+      url: "https://www.themealdb.com/lookup.php?i={id}",
+      description: "Mengambil detail lengkap dari satu makanan berdasarkan ID.",
     },
   ];
 
@@ -93,29 +126,6 @@ const Profile = () => {
             )
           )}
         </div>
-      </section>
-
-      <section id="sumber-data-api" className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Sumber Data API</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-semibold text-lg">TheMealDB.com</h3>
-                <a
-                  href="https://www.themealdb.com/api.php"
-                  className="text-muted-foreground hover:text-primary hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  https://www.themealdb.com/api.php
-                </a>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </section>
 
       <section id="tentang-saya" className="mb-12">
@@ -195,6 +205,39 @@ const Profile = () => {
                 </p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section id="sumber-data-api" className="mb-12">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl flex flex-row gap-1">
+              Sumber Data API{" "}
+              <a
+                href="https://www.themealdb.com/api.php"
+                className="text-[1.2rem] text-muted-foreground hover:text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <SquareArrowOutUpRight size={20} />
+              </a>
+            </CardTitle>
+            <p>Daftar endpoint API yang saya gunakan:</p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {apiSources.map(({ title, url, description }) => (
+              <div key={url} className="border rounded-lg p-4">
+                <h3 className="font-semibold text-lg mb-1">{title}</h3>
+                <p className="text-sm text-muted-foreground mb-1">
+                  <a className="font-semibold">GET </a>
+                  <code className="bg-gray-100 px-1 rounded break-words">
+                    {url}
+                  </code>
+                </p>
+                <p className="text-sm">{description}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </section>
