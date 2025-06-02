@@ -15,8 +15,6 @@ import {
   Github,
   Linkedin,
   Instagram,
-  SquareArrowUpLeftIcon,
-  SquareArrowUpRight,
   SquareArrowOutUpRight,
 } from "lucide-react";
 import useTitle from "@/hooks/useTitle";
@@ -64,22 +62,22 @@ const Profile = () => {
   const apiSources = [
     {
       title: "List Kategori",
-      url: "https://www.themealdb.com/categories.php",
+      url: "https://www.themealdb.com/api/json/v1/1/categories.php",
       description: "Mengambil semua kategori masakan.",
     },
     {
       title: "Daftar Makanan per Kategori",
-      url: "https://www.themealdb.com/filter.php?c={category}",
+      url: "https://www.themealdb.com/api/json/v1/1/filter.php?c={category}",
       description: "Mengambil daftar makanan berdasarkan kategori.",
     },
     {
       title: "Pencarian Makanan",
-      url: "https://www.themealdb.com/search.php?s={query}",
+      url: "https://www.themealdb.com/api/json/v1/1/search.php?s={query}",
       description: "Mencari makanan berdasarkan nama.",
     },
     {
       title: "Detail Makanan",
-      url: "https://www.themealdb.com/lookup.php?i={id}",
+      url: "hwww.themealdb.com/api/json/v1/1/lookup.php?i={id}",
       description: "Mengambil detail lengkap dari satu makanan berdasarkan ID.",
     },
   ];
